@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block title %}Employee Dashboard{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Welcome {{ employee.first_name }}</h2>
+
+<div class="card mb-4 shadow-sm">
+    <div class="card-header bg-primary text-white">
+        <h3 class="h5 mb-0">Your Leave Summary</h3>
+    </div>
+    <div class="card-body">
+        <div class="row text-center mb-4">
+            <div class="col-md-6 mb-3">
+                <div class="p-3 border rounded h-100 d-flex flex-column justify-content-between bg-light">
+                    <h4 class="h6 text-muted mb-2">CS Leave Remaining</h4>
+                    <p class="display-4 fw-bold text-success">{{ cs_remaining }}</p> 
+                    <p class="text-muted mb-0">of {{ employee.total_cs_leave }} eligible</p>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="p-3 border rounded h-100 d-flex flex-column justify-content-between bg-light">
+                    <h4 class="h6 text-muted mb-2">E Leave Remaining</h4>
+                    <p class="display-4 fw-bold text-success">{{ e_remaining }}</p> 
+                    <p class="text-muted mb-0">of {{ employee.total_e_leave }} eligible</p>
+                </div>
+            </div>
+        </div>
+
+        <hr class="my-4">
+
+        <h4 class="h5 mb-3 text-primary">Leaves Taken (Current Financial Year)</h4>
+        <div class="row text-center mb-4">
+            <div class="col-md-4 mb-3">
+                <div class="p-3 border rounded bg-info-subtle">
+                    <h5 class="h6 text-muted mb-1">This Month</h5>
+                    <p class="fs-4 fw-bold text-dark">{{ month_days}} days</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="p-3 border rounded bg-warning-subtle">
+                    <h5 class="h6 text-muted mb-1">This Quarter</h5>
+                    <p class="fs-4 fw-bold text-dark">{{ quarter_days }} days</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="p-3 border rounded bg-danger-subtle">
+                    <h5 class="h6 text-muted mb-1">This Year</h5>
+                    <p class="fs-4 fw-bold text-dark">{{ fy_days }} days</p>
+                </div>
+            </div>
+        </div>
+
+        <h4 class="h5 mb-3 text-primary">Detailed Breakdown (Current Financial Year)</h4>
+        <div class="row">
+            <div class="col-md-6">
+                <h5 class="h6 text-muted mb-2">CS Leave Taken</h5>
+                <ul class="list-group list-group-flush mb-3">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Total CS Taken:
+                        <span class="badge bg-secondary rounded-pill fs-6">{{ cs_taken }} days</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <h5 class="h6 text-muted mb-2">E Leave Taken</h5>
+                <ul class="list-group list-group-flush mb-3">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Total E Taken:
+                        <span class="badge bg-secondary rounded-pill fs-6">{{ e_taken }} days</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex justify-content-center gap-3 mt-2 mb-4">
+    <a href="{% url 'apply_leave' %}" class="btn btn-primary me-2 mb-2">Apply for Leave</a>
+    <a href="{% url 'leave_history' %}" class="btn btn-info me-2 mb-2">View Leave History</a>
+</div>
+{% endblock %}

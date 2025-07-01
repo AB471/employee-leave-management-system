@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+<h1 class="mb-4">Admin Dashboard</h1>
+
+<a href="{% url 'admin_employee_add' %}" class="btn btn-primary mb-3">+ Add New Employee</a>
+
+<hr>
+<h4>Filter & Search</h4>
+<form method="GET" class="row gy-2 gx-3 align-items-center mb-4">
+    <div class="col-md-3">
+        <input type="text" class="form-control" name="search" value="{{ search }}" placeholder="e.g. Name or 98765">
+    </div>
+    <div class="col-md-2">
+        <select name="status" class="form-select">
+            <option value="">All Status</option>
+            <option value="Active" {% if status_filter == 'Active' %}selected{% endif %}>Active</option>
+            <option value="Inactive" {% if status_filter == 'Inactive' %}selected{% endif %}>Inactive</option>
+        </select>
+    </div>
+    <div class="col-md-3">
+        <select name="leave_filter" class="form-select">
+            <option value="">All Leave Activity</option>
+            <option value="month" {% if request.GET.leave_filter == "month" %}selected{% endif %}>This Month</option>
+            <option value="quarter" {% if request.GET.leave_filter == "quarter" %}selected{% endif %}>This Quarter</option>
+            <option value="year" {% if request.GET.leave_filter == "year" %}selected{% endif %}>This Year</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-success">Apply</button>
+        <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary">Reset</a>
+    </div>
+</form>
+
+{% if no_match %}
+    <div class="alert alert-warning">No matching employee found.</div>
+{% endif %}
+
+<h4 class="mb-3">Employee Leave Report</h4>
+<div class="table-responsive">
+<table id="employeeReportTable" table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Sr.no</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Status</th>
+            <th>CS Eligible</th>
+            <th>E Eligible</th>
+            <th>CS Taken</th>
+            <th>E Taken</th>
+            <th>CS Remaining</th>
+            <th>E Remaining</th>
+            <th>This Month</th>
+            <th>This Quarter</th>
+            <th>This FY</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for row in employee_data %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ row.emp.first_name }} {{ row.emp.last_name }}</td>
+            <td>{{ row.emp.phone }}</td>
+            <td>{{ row.emp.status }}</td>
+            <td>{{ row.emp.total_cs_leave }}</td>
+            <td>{{ row.emp.total_e_leave }}</td>
+            <td>{{ row.cs_taken }}</td>
+            <td>{{ row.e_taken }}</td>
+            <td>{{ row.cs_remaining }}</td>
+            <td>{{ row.e_remaining }}</td>
+            <td>{{ row.month }}</td>
+            <td>{{ row.quarter }}</td>
+            <td>{{ row.fy }}</td>
+            <td>
+                <a href="{% url 'admin_employee_leave_report' row.emp.id %}" class="btn btn-sm btn-info m-1">View</a>
+                <a href="{% url 'admin_toggle_status' row.emp.id %}" class="btn btn-sm btn-warning">
+                    {% if row.emp.status == "Active" %}Deactivate{% else %}Activate{% endif %}
+                </a>
+                <a href="{% url 'admin_employee_edit' row.emp.id %}" class="btn btn-sm btn-primary m-1">Edit</a>
+                <a href="{% url 'admin_employee_reset_pin' row.emp.id %}" class="btn btn-sm btn-danger m-1">Reset PIN</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#employeeReportTable').DataTable({
+        pageLength: 10,
+        order: [[0, 'asc']]
+        });
+    });
+</script>
+
+<hr>
+{% endblock %}

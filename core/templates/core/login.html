@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<style>
+  .vh-center {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .login-panel-heading {
+    font-family: "Times New Roman", Times, serif; /* Sets the font to Times New Roman */
+    font-weight: bold; /* Makes the text bold */
+  }
+</style>
+
+<div class="vh-center">
+  <div class="col-md-4">
+    <h1 class="display-4 text-center mb-4 login-panel-heading">Login Panel</h1>
+
+    <div class="card shadow-lg">
+      <div class="card-header bg-primary text-white text-center">
+        <h4 class="mb-0">Enter Credentials Below.</h4>
+      </div>
+      <div class="card-body bg-light">
+        <form method="POST">
+          {% csrf_token %}
+          <div class="d-flex flex-column align-items-center">
+            <div class="mb-3 w-75">
+              <label for="id_phone" class="form-label text-center w-100">Phone Number</label>
+              {{ form.phone|add_class:"form-control text-center" }}
+            </div>
+            <div class="mb-3 w-75">
+              <label for="id_pin" class="form-label text-center w-100">4-Digit PIN</label>
+              {{ form.pin|add_class:"form-control text-center" }}
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary w-100 mt-3">Login</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
