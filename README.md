@@ -36,7 +36,7 @@ A **web-based leave management system** built using Django and MySQL. It allows 
 ### 🔧 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/employee-leave-mgmt.git
+git clone [https://github.com/your-username/employee-leave-mgmt.git](https://github.com/AB471/employee-leave-management-system)
 cd new
 ```
 
@@ -143,9 +143,7 @@ Visit [http://127.0.0.1:8000](http://127.0.0.1:8000) in your browser.
 
 ---
 
-## 📸 Optional Screenshots
-
-You can add screenshots here like:
+## 📸 Screenshots
 
 ```markdown
 ![Login Panel](screenshots/Login_Panel.png)
